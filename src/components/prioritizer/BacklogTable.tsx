@@ -15,6 +15,7 @@ export default function BacklogTable() {
   const [frozenRankMap, setFrozenRankMap] = useState<Map<string, number> | null>(null);
   const [sentIds, setSentIds] = useState<Set<string>>(new Set());
   const [colorPickerId, setColorPickerId] = useState<string | null>(null);
+  const [pickerPos, setPickerPos] = useState<{ top: number; left: number }>({ top: 0, left: 0 });
   const isDragging = useRef(false);
 
   const isRice = framework === "rice";
@@ -120,25 +121,18 @@ export default function BacklogTable() {
                       style={{ backgroundColor: itemColor }}
                     />
                     <button
-                      onClick={() => setColorPickerId(showPicker ? null : item.id)}
+                      onClick={(e) => {
+                        if (showPicker) { setColorPickerId(null); return; }
+                        const rect = e.currentTarget.getBoundingClientRect();
+                        setPickerPos({ top: rect.top + rect.height / 2, left: rect.right + 8 });
+                        setColorPickerId(item.id);
+                      }}
                       className="inline-flex items-center justify-center w-5 h-5 rounded-full text-[10px] font-bold text-white hover:scale-110 transition-transform"
                       style={{ backgroundColor: itemColor }}
                       title="색상 변경"
                     >
                       {rank}
                     </button>
-                    {showPicker && (
-                      <div className="absolute left-8 top-1/2 -translate-y-1/2 z-20 backdrop-blur-xl bg-bg-tertiary/90 border border-white/[0.08] rounded-lg p-1.5 grid grid-cols-8 gap-1 shadow-lg shadow-black/30">
-                        {TASK_PALETTE.map((c) => (
-                          <button
-                            key={c}
-                            onClick={() => { updateColor(item.id, c); setColorPickerId(null); }}
-                            className={`w-5 h-5 rounded-full transition-transform hover:scale-125 ${c === itemColor ? "ring-2 ring-white ring-offset-1 ring-offset-bg-tertiary" : ""}`}
-                            style={{ backgroundColor: c }}
-                          />
-                        ))}
-                      </div>
-                    )}
                   </td>
                   <td className="p-4">
                     <div className={`font-medium ${isTop ? "text-accent" : ""}`}>{item.name}</div>
@@ -228,6 +222,27 @@ export default function BacklogTable() {
         <div className="p-8 text-center text-text-muted text-sm">
           기능을 추가하여 우선순위를 정해보세요
         </div>
+      )}
+
+      {colorPickerId && (
+        <>
+          <div className="fixed inset-0 z-40" onClick={() => setColorPickerId(null)} />
+          <div
+            className="fixed z-50 backdrop-blur-xl bg-bg-tertiary/95 border border-white/[0.08] rounded-lg p-2 grid grid-cols-8 gap-1.5 shadow-xl shadow-black/40"
+            style={{ top: pickerPos.top, left: pickerPos.left, transform: "translateY(-50%)" }}
+          >
+            {TASK_PALETTE.map((c) => (
+              <button
+                key={c}
+                onClick={() => { updateColor(colorPickerId, c); setColorPickerId(null); }}
+                className={`w-5 h-5 rounded-full transition-transform hover:scale-125 ${
+                  c === (items.find((i) => i.id === colorPickerId)?.color) ? "ring-2 ring-white ring-offset-1 ring-offset-bg-tertiary" : ""
+                }`}
+                style={{ backgroundColor: c }}
+              />
+            ))}
+          </div>
+        </>
       )}
     </div>
   );
