@@ -5,6 +5,9 @@ export const metadata: Metadata = {
   title: "PM Toolkit — Product Manager's All-in-One Workspace",
   description:
     "Dashboard, Feature Prioritizer, PRD Generator. PM을 위한 올인원 실무 도구.",
+  icons: {
+    icon: "/favicon.svg",
+  },
   openGraph: {
     title: "PM Toolkit",
     description: "PM을 위한 올인원 실무 도구",
