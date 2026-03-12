@@ -82,23 +82,23 @@ export default function BacklogTable() {
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b border-white/[0.04]">
-              <th className="text-left p-4 section-label w-8">#</th>
-              <th className="text-left p-4 section-label">기능</th>
+              <th className="text-left p-4 table-header w-8">#</th>
+              <th className="text-left p-4 table-header">기능</th>
               {isRice ? (
                 <>
-                  <th className="text-center p-4 section-label hidden md:table-cell">도달 범위(R)</th>
-                  <th className="text-center p-4 section-label hidden md:table-cell">영향도(I)</th>
-                  <th className="text-center p-4 section-label hidden md:table-cell">확신도(C)</th>
-                  <th className="text-center p-4 section-label hidden md:table-cell">투입 노력(E)</th>
+                  <th className="text-center p-4 table-header hidden md:table-cell">도달 범위(R)</th>
+                  <th className="text-center p-4 table-header hidden md:table-cell">영향도(I)</th>
+                  <th className="text-center p-4 table-header hidden md:table-cell">확신도(C)</th>
+                  <th className="text-center p-4 table-header hidden md:table-cell">투입 노력(E)</th>
                 </>
               ) : (
                 <>
-                  <th className="text-center p-4 section-label hidden md:table-cell">영향도(I)</th>
-                  <th className="text-center p-4 section-label hidden md:table-cell">확신도(C)</th>
-                  <th className="text-center p-4 section-label hidden md:table-cell">용이성(E)</th>
+                  <th className="text-center p-4 table-header hidden md:table-cell">영향도(I)</th>
+                  <th className="text-center p-4 table-header hidden md:table-cell">확신도(C)</th>
+                  <th className="text-center p-4 table-header hidden md:table-cell">용이성(E)</th>
                 </>
               )}
-              <th className="text-right p-4 section-label">점수</th>
+              <th className="text-right p-4 table-header">점수</th>
               <th className="p-4 w-20"></th>
             </tr>
           </thead>
