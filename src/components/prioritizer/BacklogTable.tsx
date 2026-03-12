@@ -3,6 +3,7 @@
 import { useState, useMemo, useCallback, useRef } from "react";
 import { Trash2, ArrowRightCircle } from "lucide-react";
 import { usePrioritizerStore } from "@/stores/prioritizer-store";
+import { getTierColor } from "./PriorityMatrix";
 import { useDashboardStore } from "@/stores/dashboard-store";
 import ScoreSlider from "./ScoreSlider";
 
@@ -102,6 +103,7 @@ export default function BacklogTable() {
           <tbody>
             {orderedItems.map((item) => {
               const rank = rankMap.get(item.id) ?? 0;
+              const tierColor = getTierColor(rank, items.length);
               const isTop = rank === 1;
               const alreadySent = sentIds.has(item.id) || issueNames.has(item.name);
               return (
@@ -110,13 +112,17 @@ export default function BacklogTable() {
                   className={`border-b border-white/[0.03] last:border-0 transition-all group
                     hover:bg-white/[0.02] ${isTop ? "bg-accent/[0.03]" : ""}`}
                 >
-                  <td className="p-4 text-text-muted relative">
-                    <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-transparent group-hover:bg-accent/40 transition-all rounded-r" />
-                    {isTop ? (
-                      <span className="text-accent font-bold">{rank}</span>
-                    ) : (
-                      rank
-                    )}
+                  <td className="p-4 relative">
+                    <div
+                      className="absolute left-0 top-0 bottom-0 w-0.5 opacity-0 group-hover:opacity-100 transition-all rounded-r"
+                      style={{ backgroundColor: tierColor }}
+                    />
+                    <span
+                      className="inline-flex items-center justify-center w-5 h-5 rounded-full text-[10px] font-bold text-white"
+                      style={{ backgroundColor: tierColor }}
+                    >
+                      {rank}
+                    </span>
                   </td>
                   <td className="p-4">
                     <div className={`font-medium ${isTop ? "text-accent" : ""}`}>{item.name}</div>
