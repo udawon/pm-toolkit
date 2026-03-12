@@ -30,6 +30,8 @@ export interface Goal {
 export const TASK_PALETTE = [
   "#22c55e", "#3b82f6", "#f59e0b", "#ef4444",
   "#a855f7", "#ec4899", "#06b6d4", "#f97316",
+  "#14b8a6", "#6366f1", "#84cc16", "#e11d48",
+  "#8b5cf6", "#0ea5e9", "#d946ef", "#facc15",
 ] as const;
 
 export interface BacklogItem {

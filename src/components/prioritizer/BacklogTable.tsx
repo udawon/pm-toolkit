@@ -128,7 +128,7 @@ export default function BacklogTable() {
                       {rank}
                     </button>
                     {showPicker && (
-                      <div className="absolute left-8 top-1/2 -translate-y-1/2 z-20 backdrop-blur-xl bg-bg-tertiary/90 border border-white/[0.08] rounded-lg p-1.5 flex gap-1 shadow-lg shadow-black/30">
+                      <div className="absolute left-8 top-1/2 -translate-y-1/2 z-20 backdrop-blur-xl bg-bg-tertiary/90 border border-white/[0.08] rounded-lg p-1.5 grid grid-cols-8 gap-1 shadow-lg shadow-black/30">
                         {TASK_PALETTE.map((c) => (
                           <button
                             key={c}
