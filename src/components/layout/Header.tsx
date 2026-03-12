@@ -15,9 +15,6 @@ export default function Header() {
             PM Toolkit
           </h1>
         </div>
-        <span className="section-label ml-2 mt-1">
-          PM을 위한 올인원 도구
-        </span>
       </div>
     </div>
   );

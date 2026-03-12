@@ -23,7 +23,7 @@ export default function Home() {
 
       <footer className="px-6 py-8 border-t border-white/[0.03] text-center">
         <p className="section-label">
-          PM이 만들고, AI가 함께합니다
+          Developed by u.da.won
         </p>
       </footer>
     </div>
