@@ -3,17 +3,18 @@
 import { useState, useMemo, useCallback, useRef } from "react";
 import { Trash2, ArrowRightCircle } from "lucide-react";
 import { usePrioritizerStore } from "@/stores/prioritizer-store";
-import { getTierColor } from "./PriorityMatrix";
+import { TASK_PALETTE } from "@/types";
 import { useDashboardStore } from "@/stores/dashboard-store";
 import ScoreSlider from "./ScoreSlider";
 
 export default function BacklogTable() {
-  const { items, updateScore, removeItem, framework } = usePrioritizerStore();
+  const { items, updateScore, updateColor, removeItem, framework } = usePrioritizerStore();
   const addIssue = useDashboardStore((s) => s.addIssue);
   const issues = useDashboardStore((s) => s.issues);
   const [displayOrder, setDisplayOrder] = useState<string[]>([]);
   const [frozenRankMap, setFrozenRankMap] = useState<Map<string, number> | null>(null);
   const [sentIds, setSentIds] = useState<Set<string>>(new Set());
+  const [colorPickerId, setColorPickerId] = useState<string | null>(null);
   const isDragging = useRef(false);
 
   const isRice = framework === "rice";
@@ -103,9 +104,10 @@ export default function BacklogTable() {
           <tbody>
             {orderedItems.map((item) => {
               const rank = rankMap.get(item.id) ?? 0;
-              const tierColor = getTierColor(rank, items.length);
+              const itemColor = item.color || TASK_PALETTE[(rank - 1) % TASK_PALETTE.length];
               const isTop = rank === 1;
               const alreadySent = sentIds.has(item.id) || issueNames.has(item.name);
+              const showPicker = colorPickerId === item.id;
               return (
                 <tr
                   key={item.id}
@@ -115,14 +117,28 @@ export default function BacklogTable() {
                   <td className="p-4 relative">
                     <div
                       className="absolute left-0 top-0 bottom-0 w-0.5 opacity-0 group-hover:opacity-100 transition-all rounded-r"
-                      style={{ backgroundColor: tierColor }}
+                      style={{ backgroundColor: itemColor }}
                     />
-                    <span
-                      className="inline-flex items-center justify-center w-5 h-5 rounded-full text-[10px] font-bold text-white"
-                      style={{ backgroundColor: tierColor }}
+                    <button
+                      onClick={() => setColorPickerId(showPicker ? null : item.id)}
+                      className="inline-flex items-center justify-center w-5 h-5 rounded-full text-[10px] font-bold text-white hover:scale-110 transition-transform"
+                      style={{ backgroundColor: itemColor }}
+                      title="색상 변경"
                     >
                       {rank}
-                    </span>
+                    </button>
+                    {showPicker && (
+                      <div className="absolute left-8 top-1/2 -translate-y-1/2 z-20 backdrop-blur-xl bg-bg-tertiary/90 border border-white/[0.08] rounded-lg p-1.5 flex gap-1 shadow-lg shadow-black/30">
+                        {TASK_PALETTE.map((c) => (
+                          <button
+                            key={c}
+                            onClick={() => { updateColor(item.id, c); setColorPickerId(null); }}
+                            className={`w-5 h-5 rounded-full transition-transform hover:scale-125 ${c === itemColor ? "ring-2 ring-white ring-offset-1 ring-offset-bg-tertiary" : ""}`}
+                            style={{ backgroundColor: c }}
+                          />
+                        ))}
+                      </div>
+                    )}
                   </td>
                   <td className="p-4">
                     <div className={`font-medium ${isTop ? "text-accent" : ""}`}>{item.name}</div>

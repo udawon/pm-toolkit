@@ -27,10 +27,16 @@ export interface Goal {
   unit: string;
 }
 
+export const TASK_PALETTE = [
+  "#22c55e", "#3b82f6", "#f59e0b", "#ef4444",
+  "#a855f7", "#ec4899", "#06b6d4", "#f97316",
+] as const;
+
 export interface BacklogItem {
   id: string;
   name: string;
   description: string;
+  color: string;
   scores: {
     reach: number;
     impact: number;

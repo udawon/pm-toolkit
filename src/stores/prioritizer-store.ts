@@ -3,6 +3,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { BacklogItem, Framework } from "@/types";
+import { TASK_PALETTE } from "@/types";
 import { calculateRICE, calculateICE } from "@/lib/rice";
 import { demoBacklog } from "@/data/demo-data";
 
@@ -20,6 +21,7 @@ interface PrioritizerStore {
     field: keyof BacklogItem["scores"],
     value: number
   ) => void;
+  updateColor: (id: string, color: string) => void;
   removeItem: (id: string) => void;
   setFramework: (fw: Framework) => void;
 }
@@ -32,10 +34,12 @@ export const usePrioritizerStore = create<PrioritizerStore>()(
       addItem: (name, description) =>
         set((state) => {
           const scores = { reach: 5, impact: 5, confidence: 5, effort: 5, ease: 5 };
+          const color = TASK_PALETTE[state.items.length % TASK_PALETTE.length];
           const newItem: BacklogItem = {
             id: Date.now().toString(),
             name,
             description,
+            color,
             scores,
             riceScore: calcScore(scores, state.framework),
             createdAt: new Date().toISOString().split("T")[0],
@@ -53,6 +57,12 @@ export const usePrioritizerStore = create<PrioritizerStore>()(
               riceScore: calcScore(newScores, state.framework),
             };
           }),
+        })),
+      updateColor: (id, color) =>
+        set((state) => ({
+          items: state.items.map((item) =>
+            item.id === id ? { ...item, color } : item
+          ),
         })),
       removeItem: (id) =>
         set((state) => ({

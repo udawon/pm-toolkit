@@ -13,22 +13,15 @@ import {
   Label,
 } from "recharts";
 import { usePrioritizerStore } from "@/stores/prioritizer-store";
-
-export function getTierColor(rank: number, total: number): string {
-  if (total <= 1) return "#22c55e";
-  const pct = (rank - 1) / (total - 1);
-  if (pct < 0.34) return "#22c55e";
-  if (pct < 0.67) return "#3b82f6";
-  return "#ef4444";
-}
+import { TASK_PALETTE } from "@/types";
 
 function CustomDot(props: Record<string, unknown>) {
   const { cx, cy, payload } = props as { cx: number; cy: number; payload: Record<string, unknown> };
   const rank = payload.rank as number;
   const color = payload.color as string;
   const total = payload.total as number;
-  const r = Math.max(10, Math.min(20, 24 - total * 0.6));
-  const fontSize = Math.max(7, r - 3);
+  const r = Math.max(8, Math.min(14, 18 - total * 0.4));
+  const fontSize = Math.max(7, r - 2);
 
   return (
     <g>
@@ -39,9 +32,9 @@ function CustomDot(props: Record<string, unknown>) {
         fill={color}
         fillOpacity={0.85}
         stroke={color}
-        strokeOpacity={0.3}
-        strokeWidth={r * 0.4}
-        style={{ filter: `drop-shadow(0 0 4px ${color}40)` }}
+        strokeOpacity={0.25}
+        strokeWidth={3}
+        style={{ filter: `drop-shadow(0 0 3px ${color}30)` }}
       />
       <text
         x={cx}
@@ -81,7 +74,7 @@ export default function PriorityMatrix() {
         score: item.riceScore,
         rank,
         total: items.length,
-        color: getTierColor(rank, items.length),
+        color: item.color || TASK_PALETTE[(rank - 1) % TASK_PALETTE.length],
       };
     });
   }, [items, isRice]);
@@ -96,16 +89,9 @@ export default function PriorityMatrix() {
 
   return (
     <div className="glass-card p-5">
-      <div className="flex items-center justify-between mb-4">
-        <h3 className="section-label">
-          영향도 vs {isRice ? "노력도" : "용이성"} 매트릭스
-        </h3>
-        <div className="flex items-center gap-3 text-[10px]">
-          <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-[#22c55e]" />상위</span>
-          <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-[#3b82f6]" />중위</span>
-          <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-[#ef4444]" />하위</span>
-        </div>
-      </div>
+      <h3 className="section-label mb-4">
+        영향도 vs {isRice ? "노력도" : "용이성"} 매트릭스
+      </h3>
       <div className="h-[300px]">
         {mounted && <ResponsiveContainer width="100%" height="100%">
           <ScatterChart margin={{ top: 10, right: 10, bottom: 20, left: 10 }}>
