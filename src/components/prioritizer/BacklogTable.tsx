@@ -85,16 +85,16 @@ export default function BacklogTable() {
               <th className="text-left p-4 section-label">기능</th>
               {isRice ? (
                 <>
-                  <th className="text-center p-4 section-label hidden md:table-cell">도달 범위</th>
-                  <th className="text-center p-4 section-label hidden md:table-cell">영향도</th>
-                  <th className="text-center p-4 section-label hidden md:table-cell">확신도</th>
-                  <th className="text-center p-4 section-label hidden md:table-cell">투입 노력</th>
+                  <th className="text-center p-4 section-label hidden md:table-cell">도달 범위(R)</th>
+                  <th className="text-center p-4 section-label hidden md:table-cell">영향도(I)</th>
+                  <th className="text-center p-4 section-label hidden md:table-cell">확신도(C)</th>
+                  <th className="text-center p-4 section-label hidden md:table-cell">투입 노력(E)</th>
                 </>
               ) : (
                 <>
-                  <th className="text-center p-4 section-label hidden md:table-cell">영향도</th>
-                  <th className="text-center p-4 section-label hidden md:table-cell">확신도</th>
-                  <th className="text-center p-4 section-label hidden md:table-cell">용이성</th>
+                  <th className="text-center p-4 section-label hidden md:table-cell">영향도(I)</th>
+                  <th className="text-center p-4 section-label hidden md:table-cell">확신도(C)</th>
+                  <th className="text-center p-4 section-label hidden md:table-cell">용이성(E)</th>
                 </>
               )}
               <th className="text-right p-4 section-label">점수</th>
@@ -149,16 +149,16 @@ export default function BacklogTable() {
                     <div className="mt-3 space-y-2 md:hidden">
                       {isRice ? (
                         <>
-                          <ScoreSlider label="범" value={item.scores.reach} onChange={(v) => updateScore(item.id, "reach", v)} onDragStart={handleDragStart} onCommit={handleCommit} />
-                          <ScoreSlider label="영" value={item.scores.impact} onChange={(v) => updateScore(item.id, "impact", v)} onDragStart={handleDragStart} onCommit={handleCommit} />
-                          <ScoreSlider label="확" value={item.scores.confidence} onChange={(v) => updateScore(item.id, "confidence", v)} onDragStart={handleDragStart} onCommit={handleCommit} />
-                          <ScoreSlider label="노" value={item.scores.effort} onChange={(v) => updateScore(item.id, "effort", v)} onDragStart={handleDragStart} onCommit={handleCommit} />
+                          <ScoreSlider label="R" value={item.scores.reach} onChange={(v) => updateScore(item.id, "reach", v)} onDragStart={handleDragStart} onCommit={handleCommit} />
+                          <ScoreSlider label="I" value={item.scores.impact} onChange={(v) => updateScore(item.id, "impact", v)} onDragStart={handleDragStart} onCommit={handleCommit} />
+                          <ScoreSlider label="C" value={item.scores.confidence} onChange={(v) => updateScore(item.id, "confidence", v)} onDragStart={handleDragStart} onCommit={handleCommit} />
+                          <ScoreSlider label="E" value={item.scores.effort} onChange={(v) => updateScore(item.id, "effort", v)} onDragStart={handleDragStart} onCommit={handleCommit} />
                         </>
                       ) : (
                         <>
-                          <ScoreSlider label="영" value={item.scores.impact} onChange={(v) => updateScore(item.id, "impact", v)} onDragStart={handleDragStart} onCommit={handleCommit} />
-                          <ScoreSlider label="확" value={item.scores.confidence} onChange={(v) => updateScore(item.id, "confidence", v)} onDragStart={handleDragStart} onCommit={handleCommit} />
-                          <ScoreSlider label="용" value={item.scores.ease} onChange={(v) => updateScore(item.id, "ease", v)} onDragStart={handleDragStart} onCommit={handleCommit} />
+                          <ScoreSlider label="I" value={item.scores.impact} onChange={(v) => updateScore(item.id, "impact", v)} onDragStart={handleDragStart} onCommit={handleCommit} />
+                          <ScoreSlider label="C" value={item.scores.confidence} onChange={(v) => updateScore(item.id, "confidence", v)} onDragStart={handleDragStart} onCommit={handleCommit} />
+                          <ScoreSlider label="E" value={item.scores.ease} onChange={(v) => updateScore(item.id, "ease", v)} onDragStart={handleDragStart} onCommit={handleCommit} />
                         </>
                       )}
                     </div>
