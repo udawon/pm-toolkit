@@ -28,14 +28,17 @@ export default function IdeaInput() {
         placeholder="예: 사용자가 소셜 로그인(Google, GitHub)으로 간편하게 가입할 수 있는 기능. 현재 이메일 가입만 지원하고 있어서 가입 전환율이 낮은 상황..."
         className="input-premium w-full h-40 resize-none"
       />
-      <div className="flex items-center justify-between mt-4">
-        <span className="text-xs text-text-muted">
+      <div className="flex items-center justify-between mt-4 gap-3">
+        <span className="text-xs text-text-muted truncate hidden sm:block">
           {idea.length > 0 ? `${idea.length}자` : "팁: 문제, 대상 사용자, 기대 결과를 구체적으로 작성하세요"}
+        </span>
+        <span className="text-xs text-text-muted sm:hidden">
+          {idea.length > 0 ? `${idea.length}자` : ""}
         </span>
         <button
           onClick={generate}
           disabled={!idea.trim() || isGenerating}
-          className="btn-accent flex items-center gap-2"
+          className="btn-accent flex items-center gap-2 shrink-0 !py-2 !px-4"
         >
           {isGenerating ? (
             <Loader2 className="w-4 h-4 animate-spin" />
